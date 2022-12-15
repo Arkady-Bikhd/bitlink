@@ -15,7 +15,7 @@ def main():
     headers = {
         'Authorization': f'Bearer {bitly_token}'
     }
-    url = create_parcer()
+    url = create_parser()
     if is_bitlink(url,headers):
         try:
             total_clicks = count_clicks(url, headers)
