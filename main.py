@@ -7,6 +7,7 @@ import argparse
 
 BASE_URL = 'https://api-ssl.bitly.com/v4/'
 
+
 def main():
 
     load_dotenv()
@@ -16,7 +17,7 @@ def main():
         'Authorization': f'Bearer {bitly_token}'
     }
     url = create_parser_link()
-    if is_bitlink(url,headers):
+    if is_bitlink(url, headers):
         try:
             total_clicks = count_clicks(url, headers)
             print(f'Количество кликов по ссылке: {total_clicks}')
@@ -25,9 +26,10 @@ def main():
     else:
         try:
             bitlink = shorten_link(url, headers)
-            print (f'Битлинк: {bitlink}')
+            print(f'Битлинк: {bitlink}')
         except requests.exceptions.HTTPError:
             print('Введена неправильная ссылка или неверный токен')
+
 
 def shorten_link(url, headers):
 
@@ -37,18 +39,18 @@ def shorten_link(url, headers):
     response.raise_for_status()
     return response.json()['link']
 
+
 def count_clicks(bitlink, headers):
   
     parsed_link = urlparse(bitlink)
     link = f'{parsed_link.netloc}{parsed_link.path}'
     url = f'{BASE_URL}bitlinks/{link}/clicks/summary'
-    url_params = {
-                'units': '-1'
-                }
+    url_params = {'units': '-1'}
     response = requests.get(url, headers=headers, params=url_params)
     response.raise_for_status()
             
     return response.json()['total_clicks']
+
 
 def is_bitlink(url, headers):
     
@@ -59,6 +61,7 @@ def is_bitlink(url, headers):
                
     return response.ok   
 
+
 def create_parser_link():
 
     parcer = argparse.ArgumentParser(
@@ -68,6 +71,7 @@ def create_parser_link():
     args = parcer.parse_args()
 
     return args.link
+
 
 if __name__ == '__main__':
    
