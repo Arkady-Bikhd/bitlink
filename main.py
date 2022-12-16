@@ -16,7 +16,7 @@ def main():
     headers = {
         'Authorization': f'Bearer {bitly_token}'
     }
-    url = create_parser_link()
+    url = get_parsed_link()
     if is_bitlink(url, headers):
         try:
             total_clicks = count_clicks(url, headers)
@@ -62,7 +62,7 @@ def is_bitlink(url, headers):
     return response.ok   
 
 
-def create_parser_link():
+def get_parsed_link():
 
     parcer = argparse.ArgumentParser(
         description='Программа сокращает длинные ссылки и показывает статистику переходов'
